@@ -1,0 +1,6 @@
+rootProject.name = 'fyno_flutter'
+
+include ':fyno-kotlin-callback'
+include ':fyno-kotlin-core'
+include ':fyno-kotlin-push'
+include ':fyno-kotlin-sdk'
