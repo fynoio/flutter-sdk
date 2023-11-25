@@ -71,22 +71,22 @@ class FynoFlutterPlugin {
                             result.error("", "", e)
                         }
                     }
-//                   "updateStatus" -> {
-//                       try {
-//                           val args = call.arguments as Map<*, *>
-//                           val status = call.argument<String>("status")
-//                           val messageStatus = status?.let { MessageStatus.valueOf(it) }
-//                           if (messageStatus != null) {
-//                               FynoSdk.updateStatus(
-//                                   args["callbackUrl"] as String,
-//                                   messageStatus
-//                               )
-//                           }
-//                           result.success(null)
-//                       } catch (e: Exception) {
-//                           result.error("", "", e)
-//                       }
-//                   }
+                    "updateStatus" -> {
+                        try {
+                            val args = call.arguments as Map<*, *>
+                            val status = call.argument<String>("status")
+                            val messageStatus = status?.let { MessageStatus.valueOf(it) }
+                            if (messageStatus != null) {
+                                FynoSdk.updateStatus(
+                                    args["callbackUrl"] as String,
+                                    messageStatus
+                                )
+                            }
+                            result.success(null)
+                        } catch (e: Exception) {
+                            result.error("", "", e)
+                        }
+                    }
                     "mergeProfile" -> {
                         try {
                             val args = call.arguments as Map<*, *>
