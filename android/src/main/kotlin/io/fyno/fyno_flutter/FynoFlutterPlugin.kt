@@ -4,7 +4,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import io.fyno.kotlin_sdk.FynoSdk
 import io.fyno.pushlibrary.FynoPush
-import io.fyno.pushlibrary.models.MessageStatus
+import io.fyno.callback.models.MessageStatus
 import io.fyno.pushlibrary.models.PushRegion
 
 class FynoFlutterPlugin {
@@ -75,13 +75,12 @@ class FynoFlutterPlugin {
                         try {
                             val args = call.arguments as Map<*, *>
                             val status = call.argument<String>("status")
-                            val messageStatus = status?.let { MessageStatus.valueOf(it) }
-                            if (messageStatus != null) {
-                                FynoSdk.updateStatus(
-                                    args["callbackUrl"] as String,
-                                    messageStatus
-                                )
-                            }
+                            val messageStatus =  MessageStatus.valueOf(status as String)
+                            FynoSdk.updateStatus(
+                                registrar.context(),
+                                args["callbackUrl"] as String,
+                                messageStatus
+                            )
                             result.success(null)
                         } catch (e: Exception) {
                             result.error("", "", e)
