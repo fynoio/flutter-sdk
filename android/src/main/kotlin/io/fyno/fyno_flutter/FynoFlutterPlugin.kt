@@ -33,7 +33,7 @@ class FynoFlutterPlugin {
                         try {
                             val args = call.arguments as Map<*, *>
                             FynoSdk.identify(
-                                args["uniqueId"] as String,
+                                args["distinctID"] as String,
                                 args["userName"] as String
                             )
                             result.success(null)
