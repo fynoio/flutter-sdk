@@ -33,7 +33,7 @@ class FynoFlutterPlugin {
                         try {
                             val args = call.arguments as Map<*, *>
                             FynoSdk.identify(
-                                args["uniqueId"] as String,
+                                args["distinctID"] as String,
                                 args["userName"] as String
                             )
                             result.success(null)
@@ -49,21 +49,6 @@ class FynoFlutterPlugin {
                                 args["xiaomiApplicationId"] as String,
                                 args["xiaomiApplicationKey"] as String,
                                 PushRegion.values().find { it.name == args["pushRegion"] as String },
-                                args["integrationId"] as String
-                            )
-                            result.success(null)
-                        } catch (e: Exception) {
-                            result.error("", "", e)
-                        }
-                    }
-                    "registerFCMPush" -> {
-                        try {
-                            FynoPush().showPermissionDialog()
-                            val args = call.arguments as Map<*, *>
-                            FynoSdk.registerPush(
-                                null,
-                                null,
-                                null,
                                 args["integrationId"] as String
                             )
                             result.success(null)

@@ -4,94 +4,85 @@ class FynoFlutter {
   static const MethodChannel _channel = MethodChannel('fyno_flutter');
 
   // Initializes the SDK with workspace information and user credentials.
-  static Exception? init(
-      String workspaceId, String token, String userId, String version) {
+  static Future<Exception?> init(
+      String workspaceId, String token, String userId, String version) async {
     try {
-      _channel.invokeMethod("init", {
+      return await _channel.invokeMethod("init", {
         "workspaceId": workspaceId,
         "token": token,
         "userId": userId,
         "version": version,
       });
-      return null;
     } on Exception catch (exception) {
       return exception;
     }
   }
 
   // Identifies the user with a unique ID.
-  static Exception? identify(String userId) {
+  static Future<Exception?> identify(String distinctID, String userName) async {
     try {
-      _channel.invokeMethod("identify", {
-        "userName": userId,
-        "uniqueId": userId,
+      return await _channel.invokeMethod("identify", {
+        "distinctID": distinctID,
+        "userName": userName,
       });
-      return null;
     } on Exception catch (exception) {
       return exception;
     }
   }
 
-  // Registers push notifications with Xiaomi services.
-  static Exception? registerPush(String xiaomiApplicationId,
-      String xiaomiApplicationKey, String pushRegion, String integrationId) {
+  // Registers push notifications.
+  static Future<Exception?> registerPush(
+    String integrationId, {
+    String? xiaomiApplicationId = "",
+    String? xiaomiApplicationKey = "",
+    String? pushRegion = "",
+    bool? isAPNs = false,
+  }) async {
     try {
-      _channel.invokeMethod("registerPush", {
+      return await _channel.invokeMethod("registerPush", {
         "xiaomiApplicationId": xiaomiApplicationId,
         "xiaomiApplicationKey": xiaomiApplicationKey,
         "pushRegion": pushRegion,
         "integrationId": integrationId,
+        "isAPNs": isAPNs,
       });
-      return null;
-    } on Exception catch (exception) {
-      return exception;
-    }
-  }
-
-  // Registers push notifications with Firebase Cloud Messaging (FCM).
-  static Exception? registerFCMPush(String integrationId) {
-    try {
-      _channel.invokeMethod("registerFCMPush", {
-        "integrationId": integrationId,
-      });
-      return null;
-    } on Exception catch (exception) {
-      return exception;
+    } on Exception catch (e) {
+      return e;
     }
   }
 
   // Merges user profiles based on distinct IDs.
-  static Exception? mergeProfile(String oldDistinctId, String newDistinctId) {
+  static Future<Exception?> mergeProfile(
+    String oldDistinctId,
+    String newDistinctId,
+  ) async {
     try {
-      _channel.invokeMethod("mergeProfile", {
+      return await _channel.invokeMethod("mergeProfile", {
         "oldDistinctId": oldDistinctId,
         "newDistinctId": newDistinctId,
       });
-      return null;
     } on Exception catch (exception) {
       return exception;
     }
   }
 
   // Updates user status with a callback URL, status, and action details.
-  static Exception? updateStatus(
-      String callbackUrl, String status, String action) {
+  static Future<Exception?> updateStatus(
+      String callbackUrl, String status) async {
     try {
-      _channel.invokeMethod("updateStatus", {
+      return await _channel.invokeMethod("updateStatus", {
         "callbackUrl": callbackUrl,
         "status": status,
       });
-      return null;
     } on Exception catch (exception) {
       return exception;
     }
   }
 
   // Resets user information.
-  static Exception? resetUser() {
+  static Future<Exception?> resetUser() async {
     try {
-      _channel.invokeMethod("resetUser");
-      return null;
+      return await _channel.invokeMethod("resetUser");
     } on Exception catch (exception) {
       return exception;
     }
