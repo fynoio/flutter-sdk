@@ -51,17 +51,6 @@ class FynoFlutter {
     }
   }
 
-  // Registers push notifications with Firebase Cloud Messaging (FCM).
-  static Future<Exception?> registerFCMPush(String integrationId) async {
-    try {
-      return await _channel.invokeMethod("registerFCMPush", {
-        "integrationId": integrationId,
-      });
-    } on Exception catch (exception) {
-      return exception;
-    }
-  }
-
   // Merges user profiles based on distinct IDs.
   static Future<Exception?> mergeProfile(
     String oldDistinctId,

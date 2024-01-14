@@ -5,17 +5,17 @@
 Pod::Spec.new do |s|
   s.name             = 'fyno_flutter'
   s.version          = '1.0.0'
-  s.summary          = 'A new Flutter plugin project.'
+  s.summary          = 'Flutter bridge over iOS native code'
   s.description      = <<-DESC
-A new Flutter plugin project.
+  A Flutter bridge for communication with native platform code through method channels in Flutter applications developed by Fyno.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/fynoio/flutter-sdk'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Fyno' => 'viram@fyno.io' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'fyno'  
+  s.dependency 'fyno-push-ios'
 
   s.platform = :ios, '12.0'
 

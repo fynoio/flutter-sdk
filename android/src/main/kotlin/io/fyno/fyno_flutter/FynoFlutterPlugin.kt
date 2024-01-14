@@ -56,21 +56,6 @@ class FynoFlutterPlugin {
                             result.error("", "", e)
                         }
                     }
-                    "registerFCMPush" -> {
-                        try {
-                            FynoPush().showPermissionDialog()
-                            val args = call.arguments as Map<*, *>
-                            FynoSdk.registerPush(
-                                null,
-                                null,
-                                null,
-                                args["integrationId"] as String
-                            )
-                            result.success(null)
-                        } catch (e: Exception) {
-                            result.error("", "", e)
-                        }
-                    }
                     "updateStatus" -> {
                         try {
                             val args = call.arguments as Map<*, *>

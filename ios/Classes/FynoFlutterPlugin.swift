@@ -1,6 +1,6 @@
 import Flutter
 import UIKit
-import fyno
+import fyno_push_ios
 
 public class FynoFlutterPlugin: NSObject, FlutterPlugin {
     let fynosdk = fyno.app
