@@ -12,3 +12,6 @@
 
 ## 2.0.0
 - Added iOS support
+
+## 2.0.1
+- Changes in README file
