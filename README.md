@@ -259,13 +259,8 @@ import fyno_push_ios
 
         UNUserNotificationCenter.current().delegate = fynosdk
 
-        fynosdk.requestNotificationAuthorization { granted in
-            if granted {
-                DispatchQueue.main.async {
-                    self.fynosdk.registerForRemoteNotifications()
-                }
-            }
-        }
+        self.fynosdk.registerForRemoteNotifications()
+        fynosdk.requestNotificationAuthorization{ _ in}
 
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -304,15 +299,11 @@ import FirebaseMessaging
 
         UNUserNotificationCenter.current().delegate = fynosdk
 
-        fynosdk.requestNotificationAuthorization { granted in
-            if granted {
-                DispatchQueue.main.async {
-                    self.fynosdk.registerForRemoteNotifications()
-                }
-            }
-        }
+        self.fynosdk.registerForRemoteNotifications()
 
         FirebaseApp.configure() // add only if FCM has been integrated
+
+        fynosdk.requestNotificationAuthorization {_ in}
 
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
