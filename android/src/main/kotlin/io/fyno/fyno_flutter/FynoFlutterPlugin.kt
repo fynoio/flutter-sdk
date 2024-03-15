@@ -20,7 +20,7 @@ class FynoFlutterPlugin {
                             FynoSdk.initialize(
                                 registrar.context(),
                                 args["workspaceId"] as String,
-                                args["token"] as String,
+                                args["integrationID"] as String,
                                 args["userId"] as String?,
                                 args["version"] as String
                             )
@@ -48,8 +48,7 @@ class FynoFlutterPlugin {
                             FynoSdk.registerPush(
                                 args["xiaomiApplicationId"] as String,
                                 args["xiaomiApplicationKey"] as String,
-                                PushRegion.values().find { it.name == args["pushRegion"] as String },
-                                args["integrationId"] as String
+                                PushRegion.values().find { it.name == args["pushRegion"] as String }
                             )
                             result.success(null)
                         } catch (e: Exception) {

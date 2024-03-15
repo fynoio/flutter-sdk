@@ -4,12 +4,12 @@ class FynoFlutter {
   static const MethodChannel _channel = MethodChannel('fyno_flutter');
 
   // Initializes the SDK with workspace information and user credentials.
-  static Future<Exception?> init(
-      String workspaceId, String token, String userId, String version) async {
+  static Future<Exception?> init(String workspaceId, String integrationID,
+      String userId, String version) async {
     try {
       return await _channel.invokeMethod("init", {
         "workspaceId": workspaceId,
-        "token": token,
+        "integrationID": integrationID,
         "userId": userId,
         "version": version,
       });
@@ -32,19 +32,17 @@ class FynoFlutter {
 
   // Registers push notifications.
   static Future<Exception?> registerPush(
-    String integrationId, {
+    String provider, {
     String? xiaomiApplicationId = "",
     String? xiaomiApplicationKey = "",
     String? pushRegion = "",
-    bool? isAPNs = false,
   }) async {
     try {
       return await _channel.invokeMethod("registerPush", {
         "xiaomiApplicationId": xiaomiApplicationId,
         "xiaomiApplicationKey": xiaomiApplicationKey,
         "pushRegion": pushRegion,
-        "integrationId": integrationId,
-        "isAPNs": isAPNs,
+        "provider": provider,
       });
     } on Exception catch (e) {
       return e;

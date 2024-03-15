@@ -1,7 +1,7 @@
 name: fyno_flutter
 description: A Dart package for communication with native platform code through method channels in Flutter applications developed by Fyno.
-version: 2.0.1
-repository: 'https://github.com/fynoio/flutter-sdk'
+version: 3.0.0
+repository: "https://github.com/fynoio/flutter-sdk"
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
