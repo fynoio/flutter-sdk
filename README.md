@@ -48,14 +48,14 @@ import 'package:fyno_flutter/fyno_flutter.dart';
 ## Initialising the SDK (should be called on app launch)
 
 - Workspace ID(Mandatory) - Fyno's unique workspace ID, which you will see at the top of the **Workspace Settings** page.
-- API Key(Mandatory) - An API (Application Programming Interface) key is a code used to identify and authenticate an application or user. Create an API Key by following [API Keys](https://docs.fyno.io/docs/api-keys).
+- Integration ID(Mandatory) - The ID of the integration created in [Fyno Integrations](https://app.fyno.io/integrations).
 - Distinct ID(Optional) - Unique identifier for your user (An [uuid](https://en.wikipedia.org/wiki/Universally_unique_identifier) is automatically generated if no value is passed).
 - Version(Optional) - Indicates the environment in which the user has to be created. Could be either **test** or **live**. (Default value is "live").
 
 ```Text dart
 Future<Exception?> initException = await FynoFlutter.init(
   "workspace_id",
-  "api_key",
+  "integration_id",
   "distinct_id",
   "version",
 );
@@ -86,13 +86,11 @@ if (identifyException == null) {
 
 ## Registering Push Notifications with APNs or Google FCM
 
-- Integration ID(Mandatory) - The ID of the integration created in [Fyno Integrations](https://app.fyno.io/integrations).
-- isAPNs(Mandatory) - Use **true** if [APNs](https://docs.fyno.io/docs/push-apns) is configured, **false** if [Google FCM](https://docs.fyno.io/docs/push-fcm) is configured in the integration.
+- provider(Mandatory) - Use **apns** if [APNs](https://docs.fyno.io/docs/push-apns) is configured or **fcm** if [Google FCM](https://docs.fyno.io/docs/push-fcm) is configured in the integration.
 
 ```Text dart
 Future<Exception?> pushRegistrationException = await FynoFlutter.registerPush(
-  "integration_id",
-  isAPNs: isAPNs,
+  "provider",
 );
 
 if (pushRegistrationException == null) {
@@ -105,13 +103,13 @@ if (pushRegistrationException == null) {
 
 ## Registering Push Notifications with Xiaomi Services (Only Android)
 
-- Integration ID(Mandatory) - The ID of the integration created in [Fyno Integrations](https://app.fyno.io/integrations)
 - Xiaomi Application Id and Xiaomi Application Key are mandatory fields which can be found under the application registered at [Xiaomi Admin](https://admin.xmpush.xiaomi.com/)
 - Push Region(Mandatory) - Refers to the geographical region where push notifications are delivered.
+- provider(Mandatory) - Use **xiaomi**.
 
 ```Text dart
 Exception? pushRegistrationResult = FynoFlutter.registerPush(
-  integrationId,
+  "provider",
   xiaomiApplicationId: "xiaomi_application_id",
   xiaomiApplicationKey: "xiaomi_application_key",
   pushRegion: "push_region", // one of ‘INDIA’,’EUROPE’,’RUSSIA’,’GLOBAL’,

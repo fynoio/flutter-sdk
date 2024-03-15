@@ -16,12 +16,12 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin {
         case "init":
             if let arguments = call.arguments as? [String: Any],
                let workspaceId = arguments["workspaceId"] as? String,
-               let apiKey = arguments["token"] as? String,
+               let integrationID = arguments["integrationID"] as? String,
                let userId = arguments["userId"] as? String,
                let version = arguments["version"] as? String {
                 fynosdk.initializeApp(
                     workspaceID: workspaceId,
-                    apiKey: apiKey,
+                    integrationID: integrationID,
                     distinctId: userId,
                     version: version
                 ){
@@ -61,9 +61,9 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin {
             }
         case "registerPush":
             if let arguments = call.arguments as? [String: Any],
-               let integrationId = arguments["integrationId"] as? String,
-               let isAPNs = arguments["isAPNs"] as? Bool{
-                fynosdk.registerPush(integrationID: integrationId,isAPNs: isAPNs){
+                let provider = arguments["provider"] as? String {
+                let isAPNs = String.lowercased(provider)() == "apns" ? true : false
+                fynosdk.registerPush(isAPNs: isAPNs){
                     registerPushResult in
                     switch registerPushResult{
                     case .success(_):
