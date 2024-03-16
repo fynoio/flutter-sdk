@@ -21,3 +21,7 @@
 ## 3.0.0
 
 - Added JWT Logic
+
+## 3.0.1
+
+- Basic fixes in kotlin sdk
