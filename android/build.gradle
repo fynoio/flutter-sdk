@@ -56,7 +56,7 @@ android {
         implementation 'io.fyno.kotlin-sdk:core:2.0.2'
         implementation 'io.fyno.kotlin-sdk:callback:2.0.1'
         implementation 'io.fyno.kotlin-sdk:pushlibrary:2.0.1'
-        implementation 'io.fyno.kotlin-sdk:kotlin-sdk:2.0.1'
+        implementation 'io.fyno.kotlin-sdk:kotlin-sdk:2.0.2'
         implementation 'com.google.firebase:firebase-core:21.1.1'
         implementation 'com.google.firebase:firebase-messaging:23.2.1'
     }

@@ -25,3 +25,7 @@
 ## 3.0.1
 
 - Basic fixes in kotlin sdk
+
+## 3.0.2
+
+- Updated version of in kotlin sdk
