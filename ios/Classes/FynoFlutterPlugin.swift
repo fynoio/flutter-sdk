@@ -79,6 +79,25 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin {
             } else {
                 result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments", details: nil))
             }
+        case "registerInapp":
+            if let arguments = call.arguments as? [String: Any],
+                let provider = arguments["integrationID"] as? String {
+                fynosdk.registerInapp(integrationID: integrationID){
+                    registerInappResult in
+                    switch registerInappResult {
+                    case .success(_):
+                        print("registerInapp successful")
+                        result(nil)
+                        return
+                    case .failure(let error):
+                        print(error)
+                        result(FlutterError(code: "REGISTER_INAPP_FAILURE", message: "Inapp Register failed with error: \(error.localizedDescription)", details: nil))
+                        return
+                    }
+                }
+            } else {
+                result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments", details: nil))
+            }
         case "mergeProfile":
             if let arguments = call.arguments as? [String: Any],
                let newDistinctId = arguments["newDistinctId"] as? String {

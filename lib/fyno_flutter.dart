@@ -49,6 +49,17 @@ class FynoFlutter {
     }
   }
 
+  // Registers inapp
+  static Future<Exception?> registerInapp(String integrationID) async {
+    try {
+      return await _channel.invokeMethod("registerInapp", {
+        "integrationID": integrationID,
+      });
+    } on Exception catch (e) {
+      return e;
+    }
+  }
+
   // Merges user profiles based on distinct IDs.
   static Future<Exception?> mergeProfile(
     String oldDistinctId,
