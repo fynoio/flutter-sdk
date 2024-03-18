@@ -29,3 +29,7 @@
 ## 3.0.2
 
 - Updated version of in kotlin sdk
+
+## 3.0.3
+
+-Added registerInapp in ios

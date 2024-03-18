@@ -123,6 +123,23 @@ if (pushRegistrationResult == null) {
 }
 ```
 
+## Registering Inapp
+
+- Integration ID(Mandatory) - The ID of the integration created in [Fyno Integrations](https://app.fyno.io/integrations).
+
+```Text dart
+Exception? registerInappException = FynoFlutter.registerInapp(
+  "integration_id",
+);
+
+if (registerInappException == null) {
+  // Inapp registration successful
+} else {
+  // Handle push registration error
+  print("Inapp registration error: $registerInappException");
+}
+```
+
 ## Merging User Profiles
 
 - Old Distinct ID(Mandatory).
