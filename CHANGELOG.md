@@ -33,3 +33,7 @@
 ## 3.0.3
 
 -Added registerInapp in ios
+
+## 3.0.4
+
+-Added registerInapp in android

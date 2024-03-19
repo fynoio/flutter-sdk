@@ -4,6 +4,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import io.fyno.kotlin_sdk.FynoSdk
 import io.fyno.pushlibrary.FynoPush
+import io.fyno.core.FynoUser
 import io.fyno.callback.models.MessageStatus
 import io.fyno.pushlibrary.models.PushRegion
 
@@ -49,6 +50,18 @@ class FynoFlutterPlugin {
                                 args["xiaomiApplicationId"] as String,
                                 args["xiaomiApplicationKey"] as String,
                                 PushRegion.values().find { it.name == args["pushRegion"] as String }
+                            )
+                            result.success(null)
+                        } catch (e: Exception) {
+                            result.error("", "", e)
+                        }
+                    }
+                    "registerInapp" -> {
+                        try {
+                            val args = call.arguments as Map<*, *>
+                            FynoUser.setInapp(
+                                FynoUser.getIdentity(),
+                                args["integrationID"] as String,
                             )
                             result.success(null)
                         } catch (e: Exception) {
