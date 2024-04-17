@@ -37,3 +37,7 @@
 ## 3.0.4
 
 -Added registerInapp in android
+
+## 3.0.5
+
+- Upgrade deprecated version of Android embedding
