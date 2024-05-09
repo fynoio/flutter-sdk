@@ -41,3 +41,7 @@
 ## 3.0.5
 
 - Upgrade deprecated version of Android embedding
+
+## 3.1.0
+
+- Upgrade ios and android sdk versions
