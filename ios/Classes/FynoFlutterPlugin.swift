@@ -81,7 +81,7 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin {
             }
         case "registerInapp":
             if let arguments = call.arguments as? [String: Any],
-                let provider = arguments["integrationID"] as? String {
+                let integrationID = arguments["integrationID"] as? String {
                 fynosdk.registerInapp(integrationID: integrationID){
                     registerInappResult in
                     switch registerInappResult {
