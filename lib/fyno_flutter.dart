@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 
 class FynoFlutter {
@@ -7,10 +9,13 @@ class FynoFlutter {
   static Future<Exception?> init(String workspaceId, String integrationID,
       String userId, String version) async {
     try {
+      // For Android, use userId only if it is not empty; otherwise, use null
+      final user = Platform.isAndroid && userId.isEmpty ? null : userId;
+
       return await _channel.invokeMethod("init", {
         "workspaceId": workspaceId,
         "integrationID": integrationID,
-        "userId": userId,
+        "userId": user,
         "version": version,
       });
     } on Exception catch (exception) {

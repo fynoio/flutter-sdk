@@ -45,3 +45,7 @@
 ## 3.1.0
 
 - Upgrade ios and android sdk versions
+
+## 3.1.1
+
+- Fix null userid in case of android device
