@@ -53,3 +53,7 @@
 ## 3.1.2
 
 - change fynouser.setinapp to fynosdk.registerinapp
+
+## 3.1.3
+
+- Removed images from the package
