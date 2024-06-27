@@ -243,13 +243,13 @@ if (apnsPushRegistrationException == null) {
 1. Inside Targets select signing and capabilities.
 2. Click on +capabilities and add Push Notifications and Background Modes capabilities to your application.
 
-![alt text](assets/APNS1.jpeg)
+![alt text](https://fynodev.s3.ap-south-1.amazonaws.com/provider_logo/apple_config/APNS1.jpeg)
 
-![alt text](assets/APNS2.jpeg)
+![alt text](https://fynodev.s3.ap-south-1.amazonaws.com/provider_logo/apple_config/APNS2.jpeg)
 
 3. In Background Modes, select Remote Notifications option. We use background notifications to receive delivery reports when your app is in quit and background state. Refer [doc](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/pushing_background_updates_to_your_app) to know more about background notifications.
 
-![alt text](assets/APNS3.png)
+![alt text](https://fynodev.s3.ap-south-1.amazonaws.com/provider_logo/apple_config/APNS3.png)
 
 ### Step 2: Register for push notification in AppDelegate.swift file
 
@@ -343,9 +343,9 @@ import FirebaseMessaging
 2. Select `Notification Service Extension` from the template list.
 3. Then in Next popup give it any product name, select your team, select swift language and click finish.
 
-![alt text](assets/APNS4.png)
+![alt text](https://fynodev.s3.ap-south-1.amazonaws.com/provider_logo/apple_config/APNS4.png)
 
-![alt text](assets/APNS5.png)
+![alt text](https://fynodev.s3.ap-south-1.amazonaws.com/provider_logo/apple_config/APNS5.png)
 
 4. After clicking on "Finish", a folder will be created with your given product name. Replace the contents of the **NotificationService.swift** file with the below code.
 
@@ -372,16 +372,16 @@ class NotificationService: UNNotificationServiceExtension {
 
 5. In order for the **Notification Service Extension** to be able to access the fyno SDK, you will have to import it by following the below steps:
 
-![alt text](assets/APNS6.png)
+![alt text](https://fynodev.s3.ap-south-1.amazonaws.com/provider_logo/apple_config/APNS6.png)
 
-![alt text](assets/APNS7.png)
+![alt text](https://fynodev.s3.ap-south-1.amazonaws.com/provider_logo/apple_config/APNS7.png)
 
 Search for `https://github.com/fynoio/ios-sdk` in the text box. Select and add the package named **ios-sdk**.
 
-![alt text](assets/APNS8.png)
+![alt text](https://fynodev.s3.ap-south-1.amazonaws.com/provider_logo/apple_config/APNS8.png)
 
 Select the Target as the Notification Service Extension you had created and click on `Add Package`.
 
-![alt text](assets/APNS9.png)
+![alt text](https://fynodev.s3.ap-south-1.amazonaws.com/provider_logo/apple_config/APNS9.png)
 
 > 👍 You have successfully configured the Flutter SDK for receiving push notifications.
