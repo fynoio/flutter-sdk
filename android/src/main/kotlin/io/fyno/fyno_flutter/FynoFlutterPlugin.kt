@@ -74,8 +74,7 @@ class FynoFlutterPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
             "registerInapp" -> {
                 try {
                     val args = call.arguments as Map<*, *>
-                    FynoUser.setInapp(
-                        FynoUser.getIdentity(),
+                    FynoSdk.registerInapp(
                         args["integrationID"] as String,
                     )
                     result.success(null)

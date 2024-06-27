@@ -49,3 +49,7 @@
 ## 3.1.1
 
 - Fix null userid in case of android device
+
+## 3.1.2
+
+- change fynouser.setinapp to fynosdk.registerinapp
