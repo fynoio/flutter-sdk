@@ -57,3 +57,7 @@
 ## 3.1.3
 
 - Removed images from the package
+
+## 3.1.4
+
+- Upgraded android sdk versions
