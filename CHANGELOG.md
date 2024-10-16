@@ -61,3 +61,7 @@
 ## 3.1.4
 
 - Upgraded android sdk versions
+
+## 3.1.5
+
+- Upgraded android sdk versions
