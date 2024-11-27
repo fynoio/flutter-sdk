@@ -65,3 +65,7 @@
 ## 3.1.5
 
 - Upgraded android sdk versions
+
+## 3.1.6
+
+- Upgraded android sdk versions - table does not exist bug
