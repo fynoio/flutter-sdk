@@ -69,3 +69,7 @@
 ## 3.1.6
 
 - Upgraded android sdk versions - table does not exist bug
+
+## 3.1.7
+
+- Upgraded android sdk versions - added debug logs
