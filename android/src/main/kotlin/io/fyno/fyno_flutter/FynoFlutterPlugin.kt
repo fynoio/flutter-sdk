@@ -58,7 +58,7 @@ class FynoFlutterPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
 
             "registerPush" -> {
                 try {
-                    FynoPush().showPermissionDialog()
+                    FynoPush().showPermissionDialog(context)
                     val args = call.arguments as Map<*, *>
                     FynoSdk.registerPush(
                         args["xiaomiApplicationId"] as String,
