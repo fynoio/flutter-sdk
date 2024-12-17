@@ -74,6 +74,6 @@
 
 - Upgraded android sdk versions - added debug logs
 
-## 3.1.8
+## 3.2.0
 
 - updated android sdk versions and added versioning for iOS sdk
