@@ -73,3 +73,7 @@
 ## 3.1.7
 
 - Upgraded android sdk versions - added debug logs
+
+## 3.1.8
+
+- updated android sdk versions and added versioning for iOS sdk
