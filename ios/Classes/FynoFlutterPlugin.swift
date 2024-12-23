@@ -153,6 +153,13 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin {
                     return
                 }
             }
+        case "getNotificationToken":
+            let token = fynosdk.getPushNotificationToken()
+            if token == "" {
+                result(FlutterError(code: "GET_PUSH_NOTIFICATION_FAILED", message: "NO PUSH TOKEN FOUND", details: nil))
+                return
+            }
+            result(fynosdk.getPushNotificationToken())
         default:
             result(FlutterMethodNotImplemented)
         }
