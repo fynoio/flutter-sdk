@@ -101,4 +101,14 @@ class FynoFlutter {
       return exception;
     }
   }
+
+  // Fetch notification token
+  static Future<String?> getNotificationToken() async {
+    try {
+      return await _channel.invokeMethod('getNotificationToken');
+    } on Exception catch (exception) {
+      print("Exception in getNotificationToken $exception");
+      return '';
+    }
+  }
 }

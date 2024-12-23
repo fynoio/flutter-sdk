@@ -121,6 +121,23 @@ class FynoFlutterPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
                 }
             }
 
+            "getNotificationToken" -> {
+                try {
+                    var token = FynoUser.getFcmToken()
+                    if (token == "") {
+                        token = FynoUser.getMiToken()
+                    }
+                    if (token == "") {
+                        result.error("", "No push token found", null)
+                        return
+                    }
+
+                    result.success(token)
+                } catch (e: Exception) {
+                    result.error("", "No push token found", e)
+                }
+            }
+
             else -> result.notImplemented()
         }
     }

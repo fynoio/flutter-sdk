@@ -77,3 +77,7 @@
 ## 3.2.0
 
 - updated android sdk versions and added versioning for iOS sdk
+
+## 3.2.1
+
+- added function to fetch push notification token
