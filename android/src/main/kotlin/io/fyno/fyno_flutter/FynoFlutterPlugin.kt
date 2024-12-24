@@ -138,6 +138,16 @@ class FynoFlutterPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
                 }
             }
 
+            "updateName"-> {
+                try {
+                    val args = call.arguments as Map<*, *>
+                    FynoSdk.updateName(args["userName"] as String)
+                    result.success(null)
+                } catch (e: Exception) {
+                    result.error("", "", e)
+                }
+            }
+
             else -> result.notImplemented()
         }
     }

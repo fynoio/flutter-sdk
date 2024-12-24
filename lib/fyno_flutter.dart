@@ -35,6 +35,15 @@ class FynoFlutter {
     }
   }
 
+  // Update username
+  static Future<Exception?> updateName(String userName) async {
+    try {
+      return await _channel.invokeMethod('updateName', {"userName": userName});
+    } on Exception catch (exception) {
+      return exception;
+    }
+  }
+
   // Registers push notifications.
   static Future<Exception?> registerPush(
     String provider, {
