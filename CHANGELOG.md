@@ -81,3 +81,8 @@
 ## 3.2.1
 
 - added function to fetch push notification token
+
+## 3.3.0
+
+- logic to force update push token on first installation in new application (handled in kotlin and swift sdk)
+- function to update name

@@ -59,6 +59,24 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin {
             } else {
                 result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments", details: nil))
             }
+        case "updateName":
+            if let arguments = call.arguments as? [String: Any],
+               let userName = arguments["userName"] as? String{
+                fynosdk.updateName(userName: userName){ updateResult in
+                    switch updateResult{
+                    case .success(_):
+                        print("Update name successful")
+                        result(nil)
+                        return
+                    case .failure(let error):
+                        print(error)
+                        result(FlutterError(code: "UPDATE_NAME_FAILED", message: "Update failed with error: \(error.localizedDescription)", details: nil))
+                        return
+                    }
+                }
+            } else{
+                result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments", details: nil))
+            }
         case "registerPush":
             if let arguments = call.arguments as? [String: Any],
                 let provider = arguments["provider"] as? String {
