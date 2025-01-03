@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'fyno-push-ios', '~> 3.4'
+  s.dependency 'fyno-push-ios', '~> 3.5.0'
 
   s.platform = :ios, '12.0'
 

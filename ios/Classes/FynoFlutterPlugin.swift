@@ -2,13 +2,80 @@ import Flutter
 import UIKit
 import fyno_push_ios
 
-public class FynoFlutterPlugin: NSObject, FlutterPlugin {
+public class FynoFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler{
     let fynosdk = fyno.app
+    
+    private var eventSink: FlutterEventSink?
+    private var listenerCounts: [String: Int] = [:]
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "fyno_flutter", binaryMessenger: registrar.messenger())
+        let eventChannel = FlutterEventChannel(name: "fyno_flutter_plugin/events", binaryMessenger: registrar.messenger())
         let instance = FynoFlutterPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
+        eventChannel.setStreamHandler(instance)
+    }
+    
+    override init() {
+        super.init()
+        
+        let notificationNames: [NSNotification.Name] = [
+            .init("onNotificationClicked"),
+        ]
+        
+        for name in notificationNames {
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(handleNotificationEvent),
+                name: name,
+                object: nil
+            )
+        }
+    }
+        
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+     
+    @objc private func handleNotificationEvent(notification: Notification) {
+        emitEventWithRetry(notification: notification)
+    }
+       
+    private func emitEventWithRetry(notification: Notification, attempt: Int = 1, maxAttempts: Int = 3) {
+        DispatchQueue.main.async {
+            if self.listenerCounts[notification.name.rawValue, default: 0] > 0 {
+                // If listeners exist, send the event
+                self.eventSink?(["event": notification.name.rawValue, "data": notification.object ?? [:]])
+            } else if attempt < maxAttempts {
+                // Retry with exponential backoff
+                let delay = pow(2.0, Double(attempt)) // Exponential backoff
+                print("No listeners for \(notification.name.rawValue). Retrying in \(delay) seconds (Attempt \(attempt))...")
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    self.emitEventWithRetry(notification: notification, attempt: attempt + 1, maxAttempts: maxAttempts)
+                }
+            } else {
+                // Max attempts reached, log a failure
+                print("Failed to emit \(notification.name.rawValue) after \(maxAttempts) attempts. No listeners registered.")
+            }
+        }
+    }
+    
+    public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        self.eventSink = events
+        if let eventName = arguments as? String {
+            listenerCounts[eventName, default: 0] += 1
+            print("Added listener for \(eventName). Count: \(listenerCounts[eventName]!)")
+        }
+        return nil
+    }
+        
+    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        if let eventName = arguments as? String {
+            listenerCounts[eventName] = max((listenerCounts[eventName] ?? 0) - 1, 0)
+            print("Removed listener for \(eventName). Count: \(listenerCounts[eventName]!)")
+        }
+        self.eventSink = nil
+        return nil
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
