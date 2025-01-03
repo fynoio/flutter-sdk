@@ -86,3 +86,7 @@
 
 - logic to force update push token on first installation in new application (handled in kotlin and swift sdk)
 - function to update name
+
+## 3.3.1
+
+- push notification clicked listener

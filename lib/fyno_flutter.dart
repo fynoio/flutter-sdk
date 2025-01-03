@@ -5,6 +5,14 @@ import 'package:flutter/services.dart';
 class FynoFlutter {
   static const MethodChannel _channel = MethodChannel('fyno_flutter');
 
+  static const EventChannel _eventChannel =
+      EventChannel('fyno_flutter_plugin/events');
+
+  // Listen to native events
+  static Stream<dynamic> listenToEvents(String eventName) {
+    return _eventChannel.receiveBroadcastStream(eventName);
+  }
+
   // Initializes the SDK with workspace information and user credentials.
   static Future<Exception?> init(String workspaceId, String integrationID,
       String userId, String version) async {
