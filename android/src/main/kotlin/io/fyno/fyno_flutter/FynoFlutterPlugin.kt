@@ -16,6 +16,9 @@ import io.fyno.pushlibrary.helper.NotificationHelper.renderFCMMessage
 import io.fyno.pushlibrary.notification.Actions
 import io.fyno.pushlibrary.notification.NotificationActionType
 import io.fyno.pushlibrary.notification.RawMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -281,9 +284,11 @@ class FynoFlutterPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
                 try {
                     val args = call.arguments as Map<*, *>
                     var message = args["messageData"] as HashMap<*, *>
-                    message = message["data"] as HashMap<*,*>
+                    message = message["data"] as HashMap<*, *>
                     val fynoMessage = message["fyno_push"].toString()
-                    renderFCMMessage(context, fynoMessage.createNotification())
+                    CoroutineScope(Dispatchers.IO).launch {
+                        renderFCMMessage(context, fynoMessage.createNotification())
+                    }
                     result.success(null)
                 } catch (e: Exception) {
                     result.error("", "", e)

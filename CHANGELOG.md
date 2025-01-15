@@ -94,3 +94,7 @@
 ## 3.4.0
 
 - added isFynoNotification and handleFynoNotification functions
+
+## 3.4.1
+
+- call renderFCMMessage inside CoroutineScope(Dispatchers.IO)
