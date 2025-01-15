@@ -90,3 +90,7 @@
 ## 3.3.1
 
 - push notification clicked listener
+
+## 3.4.0
+
+- added isFynoNotification and handleFynoNotification functions

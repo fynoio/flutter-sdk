@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -126,6 +128,35 @@ class FynoFlutter {
     } on Exception catch (exception) {
       print("Exception in getNotificationToken $exception");
       return '';
+    }
+  }
+
+  static Future<bool> isFynoNotification(messageData) async {
+    if (!Platform.isAndroid) {
+      print("isFynoNotification is only supported on Android");
+      return false;
+    }
+
+    try {
+      return await _channel
+          .invokeMethod('isFynoNotification', {"messageData": messageData});
+    } on Exception catch (exception) {
+      print("Exception in isFynoNotification $exception");
+      return false;
+    }
+  }
+
+  static Future<Exception?> handleFynoNotification(messageData) async {
+    if (!Platform.isAndroid) {
+      print("handleFynoNotification is only supported on Android");
+      return null;
+    }
+
+    try {
+      return await _channel
+          .invokeMethod('handleFynoNotification', {"messageData": messageData});
+    } on Exception catch (exception) {
+      return exception;
     }
   }
 }
