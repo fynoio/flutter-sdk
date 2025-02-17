@@ -98,3 +98,7 @@
 ## 3.4.1
 
 - call renderFCMMessage inside CoroutineScope(Dispatchers.IO)
+
+## 3.4.2
+
+- updated android sdk versions - additional checks before API calls
