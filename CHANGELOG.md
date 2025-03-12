@@ -102,3 +102,7 @@
 ## 3.4.2
 
 - updated android sdk versions - additional checks before API calls
+
+## 3.4.3
+
+- updated android sdk versions - include error handling for failed network requests
