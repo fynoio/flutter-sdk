@@ -106,3 +106,7 @@
 ## 3.4.3
 
 - updated android sdk versions - include error handling for failed network requests
+
+## 3.4.4
+
+- updated ios sdk version - approach change of database processing
