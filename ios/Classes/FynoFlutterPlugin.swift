@@ -185,8 +185,9 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler{
             }
         case "mergeProfile":
             if let arguments = call.arguments as? [String: Any],
+               let oldDistinctId = arguments["oldDistinctId"] as? String,
                let newDistinctId = arguments["newDistinctId"] as? String {
-                fynosdk.mergeProfile(newDistinctId:newDistinctId){
+                fynosdk.mergeProfile(oldDistinctId:oldDistinctId, newDistinctId:newDistinctId){
                     mergeResult in
                     switch mergeResult{
                     case .success(_):

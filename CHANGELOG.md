@@ -110,3 +110,6 @@
 ## 3.4.4
 
 - updated ios sdk version - approach change of database processing
+
+## 3.5.0
+- updated android and ios sdk versions - reset and initialize flow approach change
