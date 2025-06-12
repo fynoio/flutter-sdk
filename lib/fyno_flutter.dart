@@ -1,16 +1,31 @@
+// ignore_for_file: avoid_print
+
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 
 class FynoFlutter {
   static const MethodChannel _channel = MethodChannel('fyno_flutter');
 
+  static const EventChannel _eventChannel =
+      EventChannel('fyno_flutter_plugin/events');
+
+  // Listen to native events
+  static Stream<dynamic> listenToEvents(String eventName) {
+    return _eventChannel.receiveBroadcastStream(eventName);
+  }
+
   // Initializes the SDK with workspace information and user credentials.
   static Future<Exception?> init(String workspaceId, String integrationID,
       String userId, String version) async {
     try {
+      // For Android, use userId only if it is not empty; otherwise, use null
+      final user = Platform.isAndroid && userId.isEmpty ? null : userId;
+
       return await _channel.invokeMethod("init", {
         "workspaceId": workspaceId,
         "integrationID": integrationID,
-        "userId": userId,
+        "userId": user,
         "version": version,
       });
     } on Exception catch (exception) {
@@ -25,6 +40,15 @@ class FynoFlutter {
         "distinctID": distinctID,
         "userName": userName,
       });
+    } on Exception catch (exception) {
+      return exception;
+    }
+  }
+
+  // Update username
+  static Future<Exception?> updateName(String userName) async {
+    try {
+      return await _channel.invokeMethod('updateName', {"userName": userName});
     } on Exception catch (exception) {
       return exception;
     }
@@ -92,6 +116,45 @@ class FynoFlutter {
   static Future<Exception?> resetUser() async {
     try {
       return await _channel.invokeMethod("resetUser");
+    } on Exception catch (exception) {
+      return exception;
+    }
+  }
+
+  // Fetch notification token
+  static Future<String?> getNotificationToken() async {
+    try {
+      return await _channel.invokeMethod('getNotificationToken');
+    } on Exception catch (exception) {
+      print("Exception in getNotificationToken $exception");
+      return '';
+    }
+  }
+
+  static Future<bool> isFynoNotification(messageData) async {
+    if (!Platform.isAndroid) {
+      print("isFynoNotification is only supported on Android");
+      return false;
+    }
+
+    try {
+      return await _channel
+          .invokeMethod('isFynoNotification', {"messageData": messageData});
+    } on Exception catch (exception) {
+      print("Exception in isFynoNotification $exception");
+      return false;
+    }
+  }
+
+  static Future<Exception?> handleFynoNotification(messageData) async {
+    if (!Platform.isAndroid) {
+      print("handleFynoNotification is only supported on Android");
+      return null;
+    }
+
+    try {
+      return await _channel
+          .invokeMethod('handleFynoNotification', {"messageData": messageData});
     } on Exception catch (exception) {
       return exception;
     }

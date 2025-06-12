@@ -2,13 +2,80 @@ import Flutter
 import UIKit
 import fyno_push_ios
 
-public class FynoFlutterPlugin: NSObject, FlutterPlugin {
+public class FynoFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler{
     let fynosdk = fyno.app
+    
+    private var eventSink: FlutterEventSink?
+    private var listenerCounts: [String: Int] = [:]
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "fyno_flutter", binaryMessenger: registrar.messenger())
+        let eventChannel = FlutterEventChannel(name: "fyno_flutter_plugin/events", binaryMessenger: registrar.messenger())
         let instance = FynoFlutterPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
+        eventChannel.setStreamHandler(instance)
+    }
+    
+    override init() {
+        super.init()
+        
+        let notificationNames: [NSNotification.Name] = [
+            .init("onNotificationClicked"),
+        ]
+        
+        for name in notificationNames {
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(handleNotificationEvent),
+                name: name,
+                object: nil
+            )
+        }
+    }
+        
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+     
+    @objc private func handleNotificationEvent(notification: Notification) {
+        emitEventWithRetry(notification: notification)
+    }
+       
+    private func emitEventWithRetry(notification: Notification, attempt: Int = 1, maxAttempts: Int = 3) {
+        DispatchQueue.main.async {
+            if self.listenerCounts[notification.name.rawValue, default: 0] > 0 {
+                // If listeners exist, send the event
+                self.eventSink?(["event": notification.name.rawValue, "data": notification.object ?? [:]])
+            } else if attempt < maxAttempts {
+                // Retry with exponential backoff
+                let delay = pow(2.0, Double(attempt)) // Exponential backoff
+                print("No listeners for \(notification.name.rawValue). Retrying in \(delay) seconds (Attempt \(attempt))...")
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    self.emitEventWithRetry(notification: notification, attempt: attempt + 1, maxAttempts: maxAttempts)
+                }
+            } else {
+                // Max attempts reached, log a failure
+                print("Failed to emit \(notification.name.rawValue) after \(maxAttempts) attempts. No listeners registered.")
+            }
+        }
+    }
+    
+    public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        self.eventSink = events
+        if let eventName = arguments as? String {
+            listenerCounts[eventName, default: 0] += 1
+            print("Added listener for \(eventName). Count: \(listenerCounts[eventName]!)")
+        }
+        return nil
+    }
+        
+    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        if let eventName = arguments as? String {
+            listenerCounts[eventName] = max((listenerCounts[eventName] ?? 0) - 1, 0)
+            print("Removed listener for \(eventName). Count: \(listenerCounts[eventName]!)")
+        }
+        self.eventSink = nil
+        return nil
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -59,6 +126,24 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin {
             } else {
                 result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments", details: nil))
             }
+        case "updateName":
+            if let arguments = call.arguments as? [String: Any],
+               let userName = arguments["userName"] as? String{
+                fynosdk.updateName(userName: userName){ updateResult in
+                    switch updateResult{
+                    case .success(_):
+                        print("Update name successful")
+                        result(nil)
+                        return
+                    case .failure(let error):
+                        print(error)
+                        result(FlutterError(code: "UPDATE_NAME_FAILED", message: "Update failed with error: \(error.localizedDescription)", details: nil))
+                        return
+                    }
+                }
+            } else{
+                result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments", details: nil))
+            }
         case "registerPush":
             if let arguments = call.arguments as? [String: Any],
                 let provider = arguments["provider"] as? String {
@@ -81,7 +166,7 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin {
             }
         case "registerInapp":
             if let arguments = call.arguments as? [String: Any],
-                let provider = arguments["integrationID"] as? String {
+                let integrationID = arguments["integrationID"] as? String {
                 fynosdk.registerInapp(integrationID: integrationID){
                     registerInappResult in
                     switch registerInappResult {
@@ -100,8 +185,9 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin {
             }
         case "mergeProfile":
             if let arguments = call.arguments as? [String: Any],
+               let oldDistinctId = arguments["oldDistinctId"] as? String,
                let newDistinctId = arguments["newDistinctId"] as? String {
-                fynosdk.mergeProfile(newDistinctId:newDistinctId){
+                fynosdk.mergeProfile(oldDistinctId:oldDistinctId, newDistinctId:newDistinctId){
                     mergeResult in
                     switch mergeResult{
                     case .success(_):
@@ -153,6 +239,13 @@ public class FynoFlutterPlugin: NSObject, FlutterPlugin {
                     return
                 }
             }
+        case "getNotificationToken":
+            let token = fynosdk.getPushNotificationToken()
+            if token == "" {
+                result(FlutterError(code: "GET_PUSH_NOTIFICATION_FAILED", message: "NO PUSH TOKEN FOUND", details: nil))
+                return
+            }
+            result(fynosdk.getPushNotificationToken())
         default:
             result(FlutterMethodNotImplemented)
         }
