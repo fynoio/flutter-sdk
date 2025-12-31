@@ -56,7 +56,7 @@ class FynoFlutterPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
                     val additionalDataJson = JSONObject(additionalDataString)
                     jsonObject.put("additional_data", additionalDataJson) // Replace string with JSON object
                 } catch (e: Exception) {
-                    Logger.w("NotificationHelper", "toNotificationObject: Failed to parse nested additional_data JSON", e)
+                    Logger.e("NotificationHelper", "toNotificationObject: Failed to parse nested additional_data JSON", e)
                 }
             }
 
