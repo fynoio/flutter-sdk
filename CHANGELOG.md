@@ -118,3 +118,7 @@
 ## 3.5.1
 
 - updated android sdk versions
+
+## 3.5.2
+
+- updated iOS sdk versions
